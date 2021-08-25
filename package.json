@@ -1,0 +1,44 @@
+{
+  "name": "@byu-oit/events",
+  "version": "1.0.0",
+  "description": "Promise-based EventEmitter implementation and utilities",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "npm run clean && tsc",
+    "clean": "rimraf dist",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/byu-oit/events-js.git"
+  },
+  "keywords": [
+    "promise",
+    "await",
+    "events"
+  ],
+  "contributors": [
+    {
+      "name": "Spencer Tuft",
+      "email": "stuft2@byu.edu"
+    },
+    {
+      "name": "James Speirs",
+      "email": "jcs97@byu.edu"
+    }
+  ],
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/byu-oit/events-js/issues"
+  },
+  "homepage": "https://github.com/byu-oit/events-js#readme",
+  "devDependencies": {
+    "@types/jest": "^27.0.1",
+    "jest": "^27.0.6",
+    "rimraf": "^3.0.2",
+    "ts-jest": "^27.0.5",
+    "ts-node": "^10.2.1",
+    "typescript": "^4.3.5"
+  }
+}

@@ -34,6 +34,17 @@ describe('EventEmitter', () => {
     await emitter.off('foo', mock).emit('foo')
     expect(mock.mock.calls.length).toEqual(0)
   })
+
+  it('should do nothing when subscription does not exist', async () => {
+    const mock = jest.fn()
+    const mock2 = jest.fn()
+    emitter.on('foo', mock)
+    emitter.on('foo', mock2)
+    emitter.off('foo', mock2)
+    await emitter.emit('foo')
+    expect(mock.mock.calls.length).toEqual(1)
+    expect(mock2.mock.calls.length).toEqual(0)
+  })
 })
 
 describe('emit', () => {

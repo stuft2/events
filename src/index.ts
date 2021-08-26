@@ -13,20 +13,20 @@ export function emit (eventType?: string) {
 }
 
 export class EventEmitter<EventType extends string = string> {
-  handlers: Record<string, EventHandler[]> = {}
+  #handlers: Record<string, EventHandler[]> = {}
 
   on (event: EventType, handler: EventHandler<EventType>): this {
-    if (!(event in this.handlers)) {
-      this.handlers[event] = []
+    if (!(event in this.#handlers)) {
+      this.#handlers[event] = []
     }
-    this.handlers[event].push(handler as unknown as EventHandler)
+    this.#handlers[event].push(handler as unknown as EventHandler)
     return this
   }
 
   off (event: EventType, handler: EventHandler<EventType>): this {
-    if (!(event in this.handlers)) return this
-    const index = this.handlers[event].indexOf(handler as unknown as EventHandler)
-    if (index !== -1) this.handlers[event].splice(index, 1)
+    if (!(event in this.#handlers)) return this
+    const index = this.#handlers[event].indexOf(handler as unknown as EventHandler)
+    if (index !== -1) this.#handlers[event].splice(index, 1)
     return this
   }
 
@@ -39,12 +39,12 @@ export class EventEmitter<EventType extends string = string> {
   }
 
   async emit<T extends Record<string, unknown>> (event: EventType, payload?: T): Promise<this> {
-    if (!(event in this.handlers)) return this
+    if (!(event in this.#handlers)) return this
     const fullPayload: EventHandlerPayload<EventType> = {
       ...payload,
       eventType: event
     }
-    await Promise.all(this.handlers[event].map(handler => handler(fullPayload)))
+    await Promise.all(this.#handlers[event].map(handler => handler(fullPayload)))
     return this
   }
 }

@@ -1,12 +1,12 @@
-export type EventHandlerPayload<EventType extends string = string> = { eventType: EventType }
-export type EventHandler<EventType extends string = string> = (payload: EventHandlerPayload<EventType>) => Promise<unknown> | unknown
+export interface EventHandlerPayload<EventType extends string = string> { eventType: EventType }
+export type EventHandler<EventType extends string = string> = (payload: EventHandlerPayload<EventType>) => Promise<unknown>
 
 export function emit (eventType?: string) {
   return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
     const original = descriptor.value
     descriptor.value = async function (this: EventEmitter) {
       const result = await original(...arguments)
-      await this.emit(eventType || propertyKey, { target: this.constructor.name, arguments })
+      await this.emit(eventType ?? propertyKey, { target: this.constructor.name, arguments })
       return result
     }
   }
@@ -30,8 +30,8 @@ export class EventEmitter<EventType extends string = string> {
     return this
   }
 
-  once (event: EventType, handler: EventHandler<EventType>) {
-    const offWrapper = async (payload: EventHandlerPayload<EventType>) => {
+  once (event: EventType, handler: EventHandler<EventType>): this {
+    const offWrapper: EventHandler<EventType> = async (payload) => {
       this.off(event, offWrapper)
       return await handler(payload)
     }
@@ -44,7 +44,7 @@ export class EventEmitter<EventType extends string = string> {
       ...payload,
       eventType: event
     }
-    await Promise.all(this.#handlers[event].map(handler => handler(fullPayload)))
+    await Promise.all(this.#handlers[event].map(async handler => await handler(fullPayload)))
     return this
   }
 }

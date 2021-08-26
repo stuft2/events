@@ -1,4 +1,4 @@
-import {EventEmitter, emit} from '../src'
+import { EventEmitter, emit } from '../src'
 
 describe('EventEmitter', () => {
   let emitter: EventEmitter
@@ -50,8 +50,8 @@ describe('EventEmitter', () => {
 describe('emit', () => {
   it('should emit an event after invoking a class method', async () => {
     class CustomEmitter extends EventEmitter {
-      @emit()
-      add (a: number, b: number) {
+      @emit() // @ts-expect-error
+      add (a: number, b: number): number {
         return a + b
       }
     }

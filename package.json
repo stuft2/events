@@ -9,6 +9,9 @@
     "clean": "rimraf dist",
     "test": "jest"
   },
+  "files": [
+    "dist"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/byu-oit/events-js.git"

@@ -50,7 +50,7 @@ describe('EventEmitter', () => {
 describe('emit', () => {
   it('should emit an event after invoking a class method', async () => {
     class CustomEmitter extends EventEmitter {
-      @emit() // @ts-expect-error
+      @emit()
       add (a: number, b: number): number {
         return a + b
       }
